@@ -27,7 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'h-project.eba-rbxw3km5.ap-northeast-2.elasticbeanstalk.com',
-    'localhost'
+    'localhost',
+    'likenews.ga',
 ]
 
 # Application definition
