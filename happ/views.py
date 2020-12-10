@@ -94,7 +94,9 @@ def ai_times_crawling():
 
     news_section = soup.select('#skin-14 > div')
 
-    result = []
+    result = {
+        "news_data":[]
+        }
 
     for news in news_section:
         a_tag = news.select_one('a')
@@ -115,7 +117,7 @@ def ai_times_crawling():
                 "content": reduce_content
             }
         
-        result.append(news_data)
+        result["news_data"].append(news_data)
 
     return result
 
