@@ -15,6 +15,8 @@ def crawling():
 
     news_section = soup.select('#today_main_news > div.hdline_news > ul > li')
 
+    result = []
+
     for news in news_section:
         a_tag = news.select_one('div > a')
         news_title = a_tag.get_text().strip()
@@ -33,8 +35,10 @@ def crawling():
                 "img" : img_link,
                 "content": reduce_content
             }
+
+        result.append(news_data)
         
-        return news_data
+    return result
 
 def home(request):
     return HttpResponse('되냐?')
@@ -43,5 +47,5 @@ def test(request):
     if request.method == 'POST':
         return HttpResponse('POST 성공', status=200)
     else:
-        news_data = crawling()
-        return HttpResponse(news_data, status=200)
+        result = crawling()
+        return HttpResponse(result, status=200)
