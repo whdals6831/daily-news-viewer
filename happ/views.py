@@ -15,12 +15,8 @@ def crawling():
 
     news_section = soup.select('#today_main_news > div.hdline_news > ul > li')
 
-    news_data = {
-            "title" : [],
-            "link" : [],
-            "img" : [],
-            "content": []
-        }
+    result = {}
+    count = 1
 
     for news in news_section:
         a_tag = news.select_one('div > a')
@@ -39,12 +35,17 @@ def crawling():
 
         reduce_content = content.get_text().strip()[:50]
 
-        news_data['title'].append(news_title)
-        news_data['link'].append(news_link)
-        news_data['img'].append(img_link)
-        news_data['content'].append(reduce_content)
+        news_data = {
+                "title" : news_title,
+                "link" : news_link,
+                "img" : img_link,
+                "content": reduce_content
+            }
         
-    return news_data
+        result[str(count)] = news_data
+        count += 1
+        
+    return result
 
 def home(request):
     return HttpResponse('되냐?')
