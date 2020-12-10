@@ -32,6 +32,10 @@ def crawling():
         content = news_soup.select_one('#articleBodyContents')
         img_section = news_soup.select_one('.end_photo_org > img')
         img_link = img_section['src']
+
+        if img_link == None:
+            img_link = "No Image"
+            
         reduce_content = content.get_text().strip()[:50]
 
         news_data['title'].append(news_title)
