@@ -20,5 +20,7 @@ from happ import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
-    path('test/', views.test, name='test'),
+    path('naver/', views.naver, name='naver'),
+    path('daum/', views.daum, name='daum'),
+    path('times/', views.times, name='times'),
 ]

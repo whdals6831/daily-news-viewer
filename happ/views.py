@@ -2,12 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 import requests
 from bs4 import BeautifulSoup
-# import sys
-# import io
-# sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
-# sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
 
-# Create your views here.
 def naver_crawling():
     url = 'https://news.naver.com/'
     html = requests.get(url, headers={"User-Agent":"Mozilla/5.0"})
@@ -15,8 +10,9 @@ def naver_crawling():
 
     news_section = soup.select('#today_main_news > div.hdline_news > ul > li')
 
-    result = {}
-    count = 1
+    result = {
+        "news_data":[]
+        }
 
     for news in news_section:
         a_tag = news.select_one('div > a')
@@ -42,8 +38,7 @@ def naver_crawling():
                 "content": reduce_content
             }
         
-        result[str(count)] = news_data
-        count += 1
+        result["news_data"].append(news_data)
         
     return result
 
@@ -55,9 +50,9 @@ def daum_crawling():
 
     news_section = soup.select('#cSub > div > ul > li')
 
-    result = {}
-
-    count = 1
+    result = {
+        "news_data":[]
+        }
 
     for news in news_section:
         a_tag = news.select_one('div > a')
@@ -81,8 +76,7 @@ def daum_crawling():
                 "content": reduce_content
             }
         
-        result[str(count)] = news_data
-        count += 1
+        result["news_data"].append(news_data)
 
     return result
 
@@ -124,7 +118,21 @@ def ai_times_crawling():
 def home(request):
     return HttpResponse('되냐?')
 
-def test(request):
+def naver(request):
+    if request.method == 'POST':
+        return HttpResponse('POST 성공', status=200)
+    else:
+        result = naver_crawling()
+        return JsonResponse(result, json_dumps_params = {'ensure_ascii': True})
+
+def daum(request):
+    if request.method == 'POST':
+        return HttpResponse('POST 성공', status=200)
+    else:
+        result = daum_crawling()
+        return JsonResponse(result, json_dumps_params = {'ensure_ascii': True})
+
+def times(request):
     if request.method == 'POST':
         return HttpResponse('POST 성공', status=200)
     else:
