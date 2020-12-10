@@ -26,7 +26,8 @@ SECRET_KEY = '^6(af$$c9nbpn2)l5h*x0%kc5_xkij@_c!ri*@j9%!5#da01li'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'h-project.eba-rbxw3km5.ap-northeast-2.elasticbeanstalk.com'
+    'h-project.eba-rbxw3km5.ap-northeast-2.elasticbeanstalk.com',
+    'localhost'
 ]
 
 
