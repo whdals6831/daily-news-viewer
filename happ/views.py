@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import requests
 from bs4 import BeautifulSoup
 # import sys
@@ -15,7 +15,12 @@ def crawling():
 
     news_section = soup.select('#today_main_news > div.hdline_news > ul > li')
 
-    result = []
+    news_data = {
+            "title" : [],
+            "link" : [],
+            "img" : [],
+            "content": []
+        }
 
     for news in news_section:
         a_tag = news.select_one('div > a')
@@ -29,16 +34,12 @@ def crawling():
         img_link = img_section['src']
         reduce_content = content.get_text().strip()[:50]
 
-        news_data = {
-                "title" : news_title,
-                "link" : news_link,
-                "img" : img_link,
-                "content": reduce_content
-            }
-
-        result.append(news_data)
+        news_data['title'].append(news_title)
+        news_data['link'].append(news_link)
+        news_data['img'].append(img_link)
+        news_data['content'].append(reduce_content)
         
-    return result
+    return news_data
 
 def home(request):
     return HttpResponse('되냐?')
@@ -48,4 +49,4 @@ def test(request):
         return HttpResponse('POST 성공', status=200)
     else:
         result = crawling()
-        return HttpResponse(result, status=200)
+        return JsonResponse(result, json_dumps_params = {'ensure_ascii': True})
